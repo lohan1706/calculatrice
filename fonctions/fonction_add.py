@@ -1,3 +1,9 @@
-def add(a,b):
-    a+=b
-    return a
+def add(*nombres):
+    """
+    Additionne deux nombres.
+
+    :param arg1: Le premier nombre.
+    :param arg2: Le deuxième nombre.
+    :return: La somme des deux nombres.
+    """
+    return print(sum(nombres))
