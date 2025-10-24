@@ -1,6 +1,3 @@
-def appuyer(t):
-    """Ajoute le caractère cliqué à l’expression."""
-    global expression
-    expression += str(t)
-    entree.delete(0, tk.END)
-    entree.insert(tk.END, expression)
+def appuyer(t, entree):
+    """Ajoute un caractère à l’expression."""
+    entree.insert("end", t)

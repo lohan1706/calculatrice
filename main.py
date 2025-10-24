@@ -1,5 +1,17 @@
 import tkinter as tk
 from tkinter import messagebox
+import os
+import sys
+
+# === Import des fonctions depuis le dossier fonctions_calc ===
+sys.path.append(os.path.join(os.path.dirname(__file__), "fonctions_calc"))
+
+from fonction_appuyer import appuyer
+from fonction_calculer import calculer
+from fonction_effacer import effacer
+from fonction_cancel import effacer_dernier
+from fonction_maj_historique import maj_historique
+from fonction_vider_historique import vider_historique
 
 # === Fenêtre principale ===
 root = tk.Tk()
@@ -7,64 +19,9 @@ root.title("Calculatrice Tkinter Pro")
 root.geometry("350x500")
 root.resizable(False, False)
 
-# === Variables ===
+# === Variables globales ===
 expression = ""
 historique = []
-
-
-# === Fonctions ===
-def appuyer(t):
-    """Ajoute le caractère cliqué à l’expression."""
-    global expression
-    expression += str(t)
-    entree.delete(0, tk.END)
-    entree.insert(tk.END, expression)
-
-
-def effacer():
-    """Efface tout le contenu."""
-    global expression
-    expression = ""
-    entree.delete(0, tk.END)
-
-
-def effacer_dernier():
-    """Efface le dernier caractère."""
-    global expression
-    expression = expression[:-1]
-    entree.delete(0, tk.END)
-    entree.insert(tk.END, expression)
-
-
-def calculer():
-    """Évalue l’expression et met à jour l’historique."""
-    global expression, historique
-    try:
-        expr = expression.replace("×", "*").replace("÷", "/").replace("^", "**")
-        resultat = eval(expr)
-        entree.delete(0, tk.END)
-        entree.insert(tk.END, str(resultat))
-        historique.append(f"{expression} = {resultat}")
-        maj_historique()
-        expression = str(resultat)
-    except Exception as e:
-        messagebox.showerror("Erreur", f"Expression invalide : {e}")
-        expression = ""
-
-
-def maj_historique():
-    """Met à jour la liste d’historique."""
-    liste.delete(0, tk.END)
-    for item in reversed(historique[-6:]):  # on affiche les 6 derniers
-        liste.insert(tk.END, item)
-
-
-def vider_historique():
-    """Vide l’historique."""
-    global historique
-    historique = []
-    liste.delete(0, tk.END)
-
 
 # === Champ d’entrée ===
 entree = tk.Entry(root, font=("Arial", 18), justify="right", bd=5, relief="sunken")
@@ -84,13 +41,13 @@ cadre_boutons.pack(padx=10, pady=10)
 
 for (texte, ligne, col) in boutons:
     if texte == "=":
-        action = calculer
+        action = lambda: calculer(entree, historique, liste)
     elif texte == "C":
-        action = effacer
+        action = lambda: effacer(entree)
     elif texte == "⌫":
-        action = effacer_dernier
+        action = lambda: effacer_dernier(entree)
     else:
-        action = lambda t=texte: appuyer(t)
+        action = lambda t=texte: appuyer(t, entree)
     tk.Button(
         cadre_boutons,
         text=texte,
@@ -105,6 +62,6 @@ tk.Label(root, text="Historique :", font=("Arial", 12, "bold")).pack()
 liste = tk.Listbox(root, height=6, font=("Arial", 10))
 liste.pack(fill="x", padx=10, pady=5)
 
-tk.Button(root, text="Effacer l'historique", command=vider_historique).pack(pady=5)
+tk.Button(root, text="Effacer l'historique", command=lambda: vider_historique(historique, liste)).pack(pady=5)
 
 root.mainloop()
