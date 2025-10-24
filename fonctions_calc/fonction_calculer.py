@@ -1,23 +1,16 @@
-def calculer():
-    """Évalue l’expression complète."""
-    global expression, resultat_affiche, historique
+from tkinter import messagebox
+from fonction_maj_historique import maj_historique
 
+def calculer(entree, historique, liste):
+    """Calcule le résultat et met à jour l’historique."""
+    expression = entree.get()
     try:
-        # Séparer les nombres et opérateurs
-        # Remplace les opérateurs par des séparateurs compatibles Python
-        expr = expression.replace('×', '*').replace('÷', '/').replace('^', '**').replace('%', '%')
-        # Évalue avec précaution
-        res = eval(expr)
-        entree.delete(0, tk.END)
-        entree.insert(tk.END, str(res))
-        resultat_affiche = True
-
-        # Enregistrer dans l’historique
-        historique.append(f"{expression} = {res}")
-        maj_historique()
-
-        expression = str(res)
-
+        expr = expression.replace("×", "*").replace("÷", "/").replace("^", "**")
+        resultat = eval(expr)
+        entree.delete(0, "end")
+        entree.insert("end", str(resultat))
+        historique.append(f"{expression} = {resultat}")
+        maj_historique(historique, liste)
     except Exception as e:
         messagebox.showerror("Erreur", f"Expression invalide : {e}")
-        expression = ""
+        entree.delete(0, "end")
