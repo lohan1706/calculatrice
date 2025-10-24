@@ -16,8 +16,8 @@ from fonction_vider_historique import vider_historique
 # === Fenêtre principale ===
 root = tk.Tk()
 root.title("Calculatrice Tkinter Pro")
-root.geometry("350x500")
-root.resizable(False, False)
+root.geometry("400x500")
+root.resizable(False,False)
 
 # === Variables globales ===
 expression = ""
