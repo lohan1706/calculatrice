@@ -1,6 +1,5 @@
-def effacer_dernier():
-    """Efface le dernier caractère."""
-    global expression
-    expression = expression[:-1]
-    entree.delete(0, tk.END)
-    entree.insert(tk.END, expression)
+def effacer_dernier(entree):
+    """Supprime le dernier caractère."""
+    contenu = entree.get()
+    entree.delete(0, "end")
+    entree.insert("end", contenu[:-1])
