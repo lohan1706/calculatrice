@@ -1,4 +1,4 @@
-def add(*nombres):
+def add(*nombres:float) -> float:
     """
     Additionne deux nombres.
 
