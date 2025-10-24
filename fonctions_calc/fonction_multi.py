@@ -1,4 +1,4 @@
-def multi(*args):
+def multi(*args:float) -> float:
     """Retourne le produit de tous les arguments fournis.
 
     Args:
