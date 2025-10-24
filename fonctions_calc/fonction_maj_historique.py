@@ -1,5 +1,5 @@
-def maj_historique():
-    """Met à jour la zone d’historique."""
-    liste.delete(0, tk.END)
-    for item in historique[-10:][::-1]:  # affiche les 10 derniers
-        liste.insert(tk.END, item)
+def maj_historique(historique, liste):
+    """Met à jour la liste d’historique."""
+    liste.delete(0, "end")
+    for item in reversed(historique[-6:]):
+        liste.insert("end", item)
