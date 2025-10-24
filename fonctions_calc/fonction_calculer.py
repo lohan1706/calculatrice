@@ -1,23 +1,14 @@
 def calculer():
-    """Évalue l’expression complète."""
-    global expression, resultat_affiche, historique
-
+    """Évalue l’expression et met à jour l’historique."""
+    global expression, historique
     try:
-        # Séparer les nombres et opérateurs
-        # Remplace les opérateurs par des séparateurs compatibles Python
-        expr = expression.replace('×', '*').replace('÷', '/').replace('^', '**').replace('%', '%')
-        # Évalue avec précaution
-        res = eval(expr)
+        expr = expression.replace("×", "*").replace("÷", "/").replace("^", "**")
+        resultat = eval(expr)
         entree.delete(0, tk.END)
-        entree.insert(tk.END, str(res))
-        resultat_affiche = True
-
-        # Enregistrer dans l’historique
-        historique.append(f"{expression} = {res}")
+        entree.insert(tk.END, str(resultat))
+        historique.append(f"{expression} = {resultat}")
         maj_historique()
-
-        expression = str(res)
-
+        expression = str(resultat)
     except Exception as e:
         messagebox.showerror("Erreur", f"Expression invalide : {e}")
         expression = ""
